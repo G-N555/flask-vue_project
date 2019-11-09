@@ -1,16 +1,36 @@
 <template>
-  <div>
-    <p>{{ msg }}</p>
+  <div class="container">
+    <button type="button" class="btn btn-primary">{{ msg }}</button>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'Ping',
   data() {
     return {
-      msg: 'Hello!',
+      msg: '',
     };
+  },
+  methods: {
+    getMessage() {
+      const path = 'http://localhost:5000/ping';
+      axios.get(path)
+        .then((res) => {
+          this.msg = res.data;
+          // eslint-disable-next-line
+          console.log(this.msg);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line
+          console.error(err);
+        });
+    },
+  },
+  created() {
+    this.getMessage();
   },
 };
 </script>
